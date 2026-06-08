@@ -54,12 +54,12 @@ const QuizView = ({ setView, setQuizCompleted, setBmtiCode }) => {
           {(step > 0 || phase === 'part2') && (
             <button
               onClick={handleBack}
-              className="p-1 -ml-1 mr-2 text-gray-400 hover:text-black transition-colors rounded-full hover:bg-gray-100 flex-shrink-0"
-              aria-label="이전 질문"
+              className="bg-white border border-gray-200 rounded-full flex items-center justify-center mr-4 flex-shrink-0 hover:bg-gray-50 transition-colors shadow-sm px-4 py-2 text-sm font-bold gap-1 text-gray-600"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
               </svg>
+              이전
             </button>
           )}
           <div className="flex justify-between text-sm text-gray-500 font-medium w-full">

@@ -146,22 +146,7 @@ const SignupModal = ({ isOpen, onClose, onComplete }) => {
                 저장하고 친구와 공유하세요!
               </p>
 
-              <div className="bg-gray-50 rounded-2xl p-5 mb-8 text-left">
-                <p className="text-xs font-semibold text-gray-400 mb-3 tracking-wider">카카오 계정으로 제공되는 정보</p>
-                <div className="space-y-2.5">
-                  {[
-                    { icon: '👤', text: '닉네임' },
-                    { icon: '📧', text: '이메일 주소' },
-                    { icon: '🖼️', text: '프로필 사진' },
-                  ].map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-3 text-sm text-gray-600">
-                      <span className="text-base">{item.icon}</span>
-                      <span>{item.text}</span>
-                      <span className="ml-auto text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">자동</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+
 
               <button
                 id="kakao-login-start"
