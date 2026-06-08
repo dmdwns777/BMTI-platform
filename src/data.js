@@ -147,22 +147,40 @@ import imgOLDZ from './assets/누끼 버전/OLDZ 누끼.png';
 import imgOLQM from './assets/누끼 버전/OLQM 누끼.png';
 import imgOLQZ from './assets/누끼 버전/OLQZ 누끼.png';
 
+// Original Images
+import origACDM from './assets/원본/ACDM.png';
+import origACDZ from './assets/원본/ACDZ.png';
+import origACQM from './assets/원본/ACQM.png';
+import origACQZ from './assets/원본/ACQZ.jpeg';
+import origALDM from './assets/원본/ALDM.png';
+import origALDZ from './assets/원본/ALDZ.png';
+import origALQM from './assets/원본/ALQM.png';
+import origALQZ from './assets/원본/ALQZ.png';
+import origOCDM from './assets/원본/OCDM.png';
+import origOCDZ from './assets/원본/OCDZ.png';
+import origOCQM from './assets/원본/OCQM.png';
+import origOCQZ from './assets/원본/OCQZ.PNG';
+import origOLDM from './assets/원본/OLDM.png';
+import origOLDZ from './assets/원본/OLDZ.png';
+import origOLQM from './assets/원본/OLQM.png';
+import origOLQZ from './assets/원본/OLQZ.png';
+
 // 16 BMTI Character types
 export const CHARACTERS = [
-  { id: 'ACDM', image: imgACDM, color: 'bg-[#f4f4f4]' },
-  { id: 'ACDZ', image: imgACDZ, color: 'bg-[#fdf9e6]' },
-  { id: 'ACQM', image: imgACQM, color: 'bg-[#edf6ed]' },
-  { id: 'ACQZ', image: imgACQZ, color: 'bg-[#eef4fb]' },
-  { id: 'ALDM', image: imgALDM, color: 'bg-[#e7f7f9]' },
-  { id: 'ALDZ', image: imgALDZ, color: 'bg-[#f1f3f5]' },
-  { id: 'ALQM', image: imgALQM, color: 'bg-[#fdf3eb]' },
-  { id: 'ALQZ', image: imgALQZ, color: 'bg-[#fff0e6]' },
-  { id: 'OCDM', image: imgOCDM, color: 'bg-[#fceef2]' },
-  { id: 'OCDZ', image: imgOCDZ, color: 'bg-[#eaf5f0]' },
-  { id: 'OCQM', image: imgOCQM, color: 'bg-[#f5f3ef]' },
-  { id: 'OCQZ', image: imgOCQZ, color: 'bg-[#e9ecef]' },
-  { id: 'OLDM', image: imgOLDM, color: 'bg-[#f4f4f5]' },
-  { id: 'OLDZ', image: imgOLDZ, color: 'bg-[#ffeedd]' },
-  { id: 'OLQM', image: imgOLQM, color: 'bg-[#fdf0f3]' },
-  { id: 'OLQZ', image: imgOLQZ, color: 'bg-[#eaf6f6]' }
+  { id: 'ACDM', image: imgACDM, originalImage: origACDM, color: 'bg-[#f4f4f4]' },
+  { id: 'ACDZ', image: imgACDZ, originalImage: origACDZ, color: 'bg-[#fdf9e6]' },
+  { id: 'ACQM', image: imgACQM, originalImage: origACQM, color: 'bg-[#edf6ed]' },
+  { id: 'ACQZ', image: imgACQZ, originalImage: origACQZ, color: 'bg-[#eef4fb]' },
+  { id: 'ALDM', image: imgALDM, originalImage: origALDM, color: 'bg-[#e7f7f9]' },
+  { id: 'ALDZ', image: imgALDZ, originalImage: origALDZ, color: 'bg-[#f1f3f5]' },
+  { id: 'ALQM', image: imgALQM, originalImage: origALQM, color: 'bg-[#fdf3eb]' },
+  { id: 'ALQZ', image: imgALQZ, originalImage: origALQZ, color: 'bg-[#fff0e6]' },
+  { id: 'OCDM', image: imgOCDM, originalImage: origOCDM, color: 'bg-[#fceef2]' },
+  { id: 'OCDZ', image: imgOCDZ, originalImage: origOCDZ, color: 'bg-[#eaf5f0]' },
+  { id: 'OCQM', image: imgOCQM, originalImage: origOCQM, color: 'bg-[#f5f3ef]' },
+  { id: 'OCQZ', image: imgOCQZ, originalImage: origOCQZ, color: 'bg-[#e9ecef]' },
+  { id: 'OLDM', image: imgOLDM, originalImage: origOLDM, color: 'bg-[#f4f4f5]' },
+  { id: 'OLDZ', image: imgOLDZ, originalImage: origOLDZ, color: 'bg-[#ffeedd]' },
+  { id: 'OLQM', image: imgOLQM, originalImage: origOLQM, color: 'bg-[#fdf0f3]' },
+  { id: 'OLQZ', image: imgOLQZ, originalImage: origOLQZ, color: 'bg-[#eaf6f6]' }
 ];

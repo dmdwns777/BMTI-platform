@@ -1,10 +1,26 @@
+import { useState } from 'react';
 import { CHARACTERS } from '../data';
 
-const HomeView = ({ setView, quizCompleted, isLoggedIn }) => (
-  <div className="fade-in pb-32">
-    {/* Hero Section */}
-    <section className="pt-40 pb-12 px-6 max-w-5xl mx-auto text-center">
-      <h1 className="font-serif leading-tight mb-8">
+const HomeView = ({ setView, quizCompleted, isLoggedIn }) => {
+  const [hoveredChar, setHoveredChar] = useState(null);
+
+  return (
+    <div className="fade-in pb-32">
+      {/* Hover Overlay */}
+      {hoveredChar && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none bg-black/40 backdrop-blur-md fade-in">
+          <div className="flex flex-col items-center transform scale-105 transition-transform duration-300">
+            <img src={hoveredChar.originalImage} alt={hoveredChar.id} className="w-80 h-80 md:w-[500px] md:h-[500px] object-contain drop-shadow-2xl" />
+            <div className="mt-8 px-8 py-3 bg-white/20 backdrop-blur-lg rounded-full border border-white/30 text-white font-bold text-3xl tracking-widest shadow-xl">
+              {hoveredChar.id}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Hero Section */}
+      <section className="pt-40 pb-12 px-6 max-w-5xl mx-auto text-center">
+        <h1 className="font-serif leading-tight mb-8">
         <div className="flex flex-col items-center justify-center mb-2 md:mb-4">
           <span className="text-6xl md:text-8xl font-bold">BMTI</span>
           <span className="text-2xl md:text-3xl font-medium mt-3 text-gray-400">운동 심리검사</span>
@@ -45,9 +61,11 @@ const HomeView = ({ setView, quizCompleted, isLoggedIn }) => (
         {[...CHARACTERS, ...CHARACTERS].map((char, idx) => (
           <div
             key={idx}
-            className={`flex-shrink-0 w-28 h-28 md:w-40 md:h-40 rounded-full border border-gray-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] flex items-center justify-center ${char.color} hover:-translate-y-2 transition-transform duration-300 cursor-pointer overflow-hidden p-1`}
+            onMouseEnter={() => setHoveredChar(char)}
+            onMouseLeave={() => setHoveredChar(null)}
+            className={`flex-shrink-0 w-28 h-28 md:w-40 md:h-40 rounded-full border border-gray-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] flex items-center justify-center ${char.color} hover:-translate-y-2 hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden p-1 relative z-10`}
           >
-            <img src={char.image} alt={char.id} className="w-full h-full object-contain scale-[1.10] drop-shadow-sm" />
+            <img src={char.image} alt={char.id} className="w-full h-full object-contain scale-[1.10] drop-shadow-sm pointer-events-none" />
           </div>
         ))}
       </div>
@@ -82,9 +100,9 @@ const HomeView = ({ setView, quizCompleted, isLoggedIn }) => (
       </p>
       <p className="text-sm font-medium">BMTI Research Lab</p>
       <p className="text-xs text-gray-500">Director of Human Body Analytics</p>
-    </section>
-
-  </div>
-);
+      </section>
+    </div>
+  );
+};
 
 export default HomeView;
