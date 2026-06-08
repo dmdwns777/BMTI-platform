@@ -8,7 +8,8 @@ const Navbar = ({ currentView, setView, isLoggedIn, setIsLoggedIn, userProfile, 
   const tabs = [
     { id: 'home', label: '홈' },
     { id: 'result', label: '결과지' },
-    { id: 'board', label: '게시판' }
+    { id: 'board', label: '게시판' },
+    { id: 'lab', label: '플리 연구소' }
   ];
 
   return (

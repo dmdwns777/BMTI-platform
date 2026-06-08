@@ -42,7 +42,7 @@ const TIP_POSTS = {
   ]
 };
 
-const BoardView = () => {
+const BoardView = ({ isLoggedIn, onRequireLogin }) => {
   const [activeTab, setActiveTab] = useState('talk');
   const [talkType, setTalkType] = useState('M');
   const [tipType, setTipType] = useState('Q');
@@ -66,6 +66,16 @@ const BoardView = () => {
       return [...posts].sort((a, b) => b.comments.length - a.comments.length);
     }
     return posts;
+  };
+
+  const handleWriteClick = () => {
+    if (!isLoggedIn) {
+      alert("카카오톡 간편 로그인이 필요합니다.");
+      if (onRequireLogin) onRequireLogin();
+      return;
+    }
+    // If logged in, maybe show a write modal or alert
+    alert("게시글 작성 기능은 곧 오픈됩니다!");
   };
 
   return (
@@ -247,7 +257,10 @@ const BoardView = () => {
           </div>
 
           <div className="fixed bottom-6 left-0 right-0 px-4 pointer-events-none flex justify-center z-40 fade-in">
-            <button className="pointer-events-auto bg-black text-white px-8 py-3.5 rounded-full text-sm font-bold shadow-xl shadow-black/20 hover:bg-gray-800 hover:-translate-y-1 transition-all duration-300">
+            <button 
+              onClick={handleWriteClick}
+              className="pointer-events-auto bg-black text-white px-8 py-3.5 rounded-full text-sm font-bold shadow-xl shadow-black/20 hover:bg-gray-800 hover:-translate-y-1 transition-all duration-300"
+            >
               {talkType === 'Z' ? '팩트로 해답 얻기' : '따뜻한 위로 받기'}
             </button>
           </div>
@@ -333,7 +346,10 @@ const BoardView = () => {
           </div>
 
           <div className="fixed bottom-6 left-0 right-0 px-4 pointer-events-none flex justify-center z-40 fade-in">
-            <button className="pointer-events-auto bg-black text-white px-8 py-3.5 rounded-full text-sm font-bold shadow-xl shadow-black/20 hover:bg-gray-800 hover:-translate-y-1 transition-all duration-300">
+            <button 
+              onClick={handleWriteClick}
+              className="pointer-events-auto bg-black text-white px-8 py-3.5 rounded-full text-sm font-bold shadow-xl shadow-black/20 hover:bg-gray-800 hover:-translate-y-1 transition-all duration-300"
+            >
               질문하기
             </button>
           </div>

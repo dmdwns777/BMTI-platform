@@ -4,6 +4,7 @@ import HomeView from './components/HomeView';
 import QuizView from './components/QuizView';
 import ResultView from './components/ResultView';
 import BoardView from './components/BoardView';
+import LabView from './components/LabView';
 import Footer from './components/Footer';
 import SignupModal from './components/SignupModal';
 
@@ -74,11 +75,17 @@ function App() {
             bmtiCode={bmtiCode}
           />
         )}
-        {currentView === 'board' && <BoardView />}
+        {currentView === 'board' && (
+          <BoardView 
+            isLoggedIn={isLoggedIn}
+            onRequireLogin={() => setShowSignup(true)}
+          />
+        )}
+        {currentView === 'lab' && <LabView />}
       </main>
 
-      {/* Footer for Home/Board views */}
-      {['home', 'board'].includes(currentView) && <Footer />}
+      {/* Footer for Home/Board/Lab views */}
+      {['home', 'board', 'lab'].includes(currentView) && <Footer />}
 
       {/* Signup Modal */}
       <SignupModal

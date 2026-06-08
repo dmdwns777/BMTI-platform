@@ -84,8 +84,20 @@ const SignupModal = ({ isOpen, onClose, onComplete }) => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const generateRandomNickname = () => {
+    const adjectives = ['열정적인', '꾸준한', '행복한', '건강한', '활기찬', '멋진', '강력한', '유연한'];
+    const nouns = ['헬린이', '운동러', '홈트족', '러너', '다이어터', '근육맨', '요기니'];
+    const randomAdj = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+    const randomNumber = Math.floor(Math.random() * 999) + 1;
+    return `${randomAdj}${randomNoun}${randomNumber}`;
+  };
+
   const handleNext = () => {
     if (step === 0) {
+      if (!formData.nickname) {
+        setFormData(prev => ({ ...prev, nickname: generateRandomNickname() }));
+      }
       setStep(1);
       return;
     }
@@ -173,10 +185,18 @@ const SignupModal = ({ isOpen, onClose, onComplete }) => {
 
               {/* Nickname */}
               <div className="mb-6">
-                <label className="text-sm font-bold text-gray-700 mb-2 block">
-                  닉네임
-                  {errors.nickname && <span className="text-red-400 ml-2 font-medium text-xs">입력해주세요</span>}
-                </label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-sm font-bold text-gray-700">
+                    닉네임
+                    {errors.nickname && <span className="text-red-400 ml-2 font-medium text-xs">입력해주세요</span>}
+                  </label>
+                  <button 
+                    onClick={() => updateField('nickname', generateRandomNickname())}
+                    className="text-xs font-bold text-gray-400 hover:text-black transition-colors flex items-center gap-1 bg-gray-100 px-2.5 py-1 rounded-full"
+                  >
+                    🎲 랜덤 추천
+                  </button>
+                </div>
                 <input
                   type="text"
                   placeholder="사용하실 닉네임을 입력하세요"
