@@ -13,7 +13,7 @@ const HomeView = ({ setView, quizCompleted, isLoggedIn }) => (
           BODY MANAGEMENT TYPE INDICATOR
         </span>
       </h1>
-      <p className="text-lg md:text-xl text-gray-600 mb-16 max-w-2xl mx-auto leading-relaxed break-keep">
+      <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed break-keep">
         운동에 나를 맞추지 말고, 나에게 운동을 맞추다.
       </p>
     </section>
@@ -45,9 +45,9 @@ const HomeView = ({ setView, quizCompleted, isLoggedIn }) => (
         {[...CHARACTERS, ...CHARACTERS].map((char, idx) => (
           <div
             key={idx}
-            className={`flex-shrink-0 w-36 h-36 md:w-56 md:h-56 rounded-full border border-gray-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] flex items-center justify-center ${char.color} hover:-translate-y-2 transition-transform duration-300 cursor-pointer overflow-hidden`}
+            className={`flex-shrink-0 w-28 h-28 md:w-40 md:h-40 rounded-full border border-gray-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] flex items-center justify-center ${char.color} hover:-translate-y-2 transition-transform duration-300 cursor-pointer overflow-hidden p-1`}
           >
-            <img src={char.image} alt={char.id} className="w-full h-full object-cover scale-[1.35] drop-shadow-sm" />
+            <img src={char.image} alt={char.id} className="w-full h-full object-contain scale-[1.10] drop-shadow-sm" />
           </div>
         ))}
       </div>
