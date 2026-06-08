@@ -53,24 +53,10 @@ body {
   }
 }
 
-/* Marquee (endless horizontal scroll) */
+/* Marquee (manual scroll only) */
 .marquee-content {
   display: flex;
   width: max-content;
-  animation: scroll-left 40s linear infinite;
-}
-
-.marquee-content:hover {
-  animation-play-state: paused;
-}
-
-@keyframes scroll-left {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
 }
 
 /* Spinning shape in result card */
