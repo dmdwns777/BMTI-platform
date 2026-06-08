@@ -105,7 +105,7 @@ const BoardView = () => {
                 talkType === 'Z' ? 'bg-blue-100 text-blue-700 border-2 border-blue-200 shadow-md' : 'bg-gray-100 text-gray-500 border-2 border-transparent hover:bg-gray-200'
               }`}
             >
-              팩트형(Z)
+              팩트형(Z) - 팩트 직구
             </button>
             <button
               onClick={() => setTalkType('M')}
@@ -113,7 +113,7 @@ const BoardView = () => {
                 talkType === 'M' ? 'bg-pink-100 text-pink-700 border-2 border-pink-200 shadow-md' : 'bg-gray-100 text-gray-500 border-2 border-transparent hover:bg-gray-200'
               }`}
             >
-              공감형(M)
+              공감형(M) - 폭풍 공감
             </button>
           </div>
 
@@ -248,7 +248,7 @@ const BoardView = () => {
         <div className="fade-in">
           {/* Sub-description */}
           <p className="text-center text-gray-500 text-sm mb-8">
-            {tipType === 'Q' ? '원리가 궁금할 땐 질문하세요 — 가이드가 답변합니다 📚' : '자극 위치가 헷갈릴 땐 물어보세요 — 가이드가 교정합니다 🎯'}
+            {tipType === 'Q' ? '원리가 궁금할 땐 질문하세요 — 가이드가 답변합니다 📚' : '자극 위치가 헷갈릴 땐 물어보세요 — 가이드가 답변합니다 🎯'}
           </p>
 
           {/* Type Toggle */}
