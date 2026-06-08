@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import html2canvas from 'html2canvas';
+import { CHARACTERS } from '../data';
 
 const KakaoIcon = ({ className = "w-3.5 h-3.5 fill-current" }) => (
   <svg viewBox="0 0 24 24" className={className}>
@@ -6,8 +8,67 @@ const KakaoIcon = ({ className = "w-3.5 h-3.5 fill-current" }) => (
   </svg>
 );
 
+// BMTI 유형별 정보
+const BMTI_INFO = {
+  'ACDM': { kr: '활동적 집중 실전 공감형', catchphrase: '몸으로 먼저 느끼고,\n마음으로 함께 움직이는 사람', bestMatch: 'OLQZ', diffTempo: 'OLQM', color: '#FF6B6B', bgGradient: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)' },
+  'ACDZ': { kr: '활동적 집중 실전 팩트형', catchphrase: '결과로 말하는\n실전 파워 무버', bestMatch: 'OLQM', diffTempo: 'OLQZ', color: '#4ECDC4', bgGradient: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)' },
+  'ACQM': { kr: '활동적 집중 탐구 공감형', catchphrase: '이론과 감성 사이에서\n최적의 균형을 찾는 사람', bestMatch: 'OLDZ', diffTempo: 'OLDM', color: '#A78BFA', bgGradient: 'linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%)' },
+  'ACQZ': { kr: '활동적 집중 탐구 팩트형', catchphrase: '데이터로 파고드는\n분석형 액티비스트', bestMatch: 'OLDM', diffTempo: 'OLDZ', color: '#60A5FA', bgGradient: 'linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%)' },
+  'ALDM': { kr: '활동적 전신 실전 공감형', catchphrase: '전신으로 느끼며\n사람과 함께 성장하는 무버', bestMatch: 'OCQZ', diffTempo: 'OCQM', color: '#F472B6', bgGradient: 'linear-gradient(135deg, #F472B6 0%, #EC4899 100%)' },
+  'ALDZ': { kr: '활동적 전신 실전 팩트형', catchphrase: '거침없는 실행력으로\n몸 전체를 깨우는 사람', bestMatch: 'OCQM', diffTempo: 'OCQZ', color: '#34D399', bgGradient: 'linear-gradient(135deg, #34D399 0%, #10B981 100%)' },
+  'ALQM': { kr: '활동적 전신 탐구 공감형', catchphrase: '호기심과 따뜻함이\n공존하는 밸런스 탐험가', bestMatch: 'OCDZ', diffTempo: 'OCDM', color: '#FBBF24', bgGradient: 'linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)' },
+  'ALQZ': { kr: '활동적 전신 탐구 팩트형', catchphrase: '과학적 근거 위에\n움직임을 설계하는 전략가', bestMatch: 'OCDM', diffTempo: 'OCDZ', color: '#818CF8', bgGradient: 'linear-gradient(135deg, #818CF8 0%, #6366F1 100%)' },
+  'OCDM': { kr: '안정적 집중 실전 공감형', catchphrase: '조용하지만 깊게,\n마음까지 챙기는 꼼꼼 무버', bestMatch: 'ALQZ', diffTempo: 'ALQM', color: '#FB923C', bgGradient: 'linear-gradient(135deg, #FB923C 0%, #EA580C 100%)' },
+  'OCDZ': { kr: '안정적 집중 실전 팩트형', catchphrase: '묵묵히 집중하며\n효율을 극대화하는 장인', bestMatch: 'ALQM', diffTempo: 'ALQZ', color: '#2DD4BF', bgGradient: 'linear-gradient(135deg, #2DD4BF 0%, #14B8A6 100%)' },
+  'OCQM': { kr: '안정적 집중 탐구 공감형', catchphrase: '깊이 있는 탐구와\n따뜻한 소통의 조화', bestMatch: 'ALDZ', diffTempo: 'ALDM', color: '#E879F9', bgGradient: 'linear-gradient(135deg, #E879F9 0%, #C026D3 100%)' },
+  'OCQZ': { kr: '안정적 집중 탐구 팩트형', catchphrase: '냉철한 분석력으로\n최적의 루틴을 설계하는 사람', bestMatch: 'ALDM', diffTempo: 'ALDZ', color: '#38BDF8', bgGradient: 'linear-gradient(135deg, #38BDF8 0%, #0EA5E9 100%)' },
+  'OLDM': { kr: '안정적 전신 실전 공감형', catchphrase: '편안한 리듬 속에\n모두와 함께 움직이는 힐러', bestMatch: 'ACQZ', diffTempo: 'ACQM', color: '#FB7185', bgGradient: 'linear-gradient(135deg, #FB7185 0%, #E11D48 100%)' },
+  'OLDZ': { kr: '안정적 전신 실전 팩트형', catchphrase: '꾸준함의 힘을 아는\n묵직한 실행가', bestMatch: 'ACQM', diffTempo: 'ACQZ', color: '#4ADE80', bgGradient: 'linear-gradient(135deg, #4ADE80 0%, #16A34A 100%)' },
+  'OLQM': { kr: '안정적 전신 탐구 공감형', catchphrase: '천천히, 하지만 확실하게\n마음을 담아 움직이는 사람', bestMatch: 'ACDZ', diffTempo: 'ACDM', color: '#F9A8D4', bgGradient: 'linear-gradient(135deg, #F9A8D4 0%, #EC4899 100%)' },
+  'OLQZ': { kr: '안정적 전신 탐구 팩트형', catchphrase: '데이터와 균형 감각으로\n최적의 웰니스를 설계하는 사람', bestMatch: 'ACDM', diffTempo: 'ACDZ', color: '#67E8F9', bgGradient: 'linear-gradient(135deg, #67E8F9 0%, #06B6D4 100%)' },
+};
+
 const ResultView = ({ setView, quizCompleted, setQuizCompleted, isLoggedIn, setIsLoggedIn, bmtiCode }) => {
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showStoryModal, setShowStoryModal] = useState(false);
+  const [urlCopied, setUrlCopied] = useState(false);
+  const storyRef = useRef(null);
+
+  // Parse BMTI code
+  const axisCode = bmtiCode ? bmtiCode.split('-')[0] : '';
+  const suffix = bmtiCode ? bmtiCode.split('-')[1] || '' : '';
+  const info = BMTI_INFO[axisCode] || BMTI_INFO['ACDM'];
+  const charData = CHARACTERS.find(c => c.id === axisCode);
+  const bestChar = CHARACTERS.find(c => c.id === info.bestMatch);
+  const diffChar = CHARACTERS.find(c => c.id === info.diffTempo);
+
+  const siteUrl = 'https://dmdwns777.github.io/BMTI-platform/';
+
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText(siteUrl).then(() => {
+      setUrlCopied(true);
+      setTimeout(() => setUrlCopied(false), 2000);
+    });
+  };
+
+  const handleDownloadStory = async () => {
+    if (!storyRef.current) return;
+    try {
+      const canvas = await html2canvas(storyRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null,
+        width: 540,
+        height: 960,
+      });
+      const link = document.createElement('a');
+      link.download = `BMTI_${axisCode}_story.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (err) {
+      console.error('Download error:', err);
+    }
+  };
 
   if (!quizCompleted) {
     return (
@@ -65,6 +126,14 @@ const ResultView = ({ setView, quizCompleted, setQuizCompleted, isLoggedIn, setI
                   카카오톡 공유
                 </button>
                 <button
+                  id="insta-story-btn"
+                  onClick={() => setShowStoryModal(true)}
+                  className="bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 text-white px-3 py-2 md:px-4 md:py-2 rounded-xl text-xs md:text-sm font-bold shadow-sm hover:-translate-y-0.5 transition-transform flex items-center gap-1.5 w-fit"
+                >
+                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                  인스타그램 스토리용 다운로드
+                </button>
+                <button
                   id="retake-quiz-card"
                   onClick={() => setShowConfirm(true)}
                   className="bg-white text-black border border-gray-200 px-3 py-2 md:px-4 md:py-2 rounded-xl text-xs md:text-sm font-bold shadow-sm hover:bg-gray-50 hover:-translate-y-0.5 transition-transform flex items-center gap-1.5 w-fit"
@@ -92,17 +161,25 @@ const ResultView = ({ setView, quizCompleted, setQuizCompleted, isLoggedIn, setI
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#c0ff00]/10 rounded-bl-full -z-10"></div>
 
         <div className={`flex flex-col items-center text-center ${quizCompleted ? 'mt-28 md:mt-16' : ''}`}>
-          {/* Character Image (Abstract Concept) */}
+          {/* Character Image */}
           <div className="w-48 h-48 bg-gray-50 rounded-full flex items-center justify-center relative border border-gray-200 overflow-hidden mb-8 shadow-inner">
-            <div className="w-32 h-32 bg-black rounded-[40%] animate-spin-slow absolute"></div>
-            <div className="w-24 h-24 bg-[#c0ff00] rounded-full absolute mix-blend-multiply opacity-90"></div>
+            {charData ? (
+              <img src={charData.originalImage} alt={axisCode} className="w-full h-full object-contain" />
+            ) : (
+              <>
+                <div className="w-32 h-32 bg-black rounded-[40%] animate-spin-slow absolute"></div>
+                <div className="w-24 h-24 bg-[#c0ff00] rounded-full absolute mix-blend-multiply opacity-90"></div>
+              </>
+            )}
           </div>
 
           {/* Catchphrase & Name */}
           <p className="text-[#9BB31B] font-bold text-lg md:text-xl mb-2">당신의 분석 코드</p>
-          <h3 className="text-4xl md:text-5xl font-black mb-8 tracking-tight text-gray-900">
+          <h3 className="text-4xl md:text-5xl font-black mb-3 tracking-tight text-gray-900">
             {bmtiCode || '분석 중...'}
           </h3>
+          <p className="text-sm text-gray-500 mb-2 font-medium">{info.kr}</p>
+          <p className="text-base text-gray-600 mb-10 whitespace-pre-line leading-relaxed italic">{info.catchphrase}</p>
 
           {/* 5-Line Description */}
           <p className="text-gray-600 leading-relaxed text-base md:text-lg mb-10 break-keep w-full max-w-md mx-auto">
@@ -117,11 +194,13 @@ const ResultView = ({ setView, quizCompleted, setQuizCompleted, isLoggedIn, setI
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
             <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100 flex flex-col items-center justify-center">
               <p className="text-xs text-gray-400 mb-2 font-semibold tracking-wider">환상의 짝꿍 BMTI</p>
-              <p className="font-bold text-gray-800 text-lg">날쌘돌이 표범형 🐆</p>
+              <p className="font-bold text-gray-800 text-lg">{info.bestMatch}</p>
+              <p className="text-xs text-gray-500 mt-1">{BMTI_INFO[info.bestMatch]?.kr}</p>
             </div>
             <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100 flex flex-col items-center justify-center">
               <p className="text-xs text-gray-400 mb-2 font-semibold tracking-wider">조금 다른 템포 BMTI</p>
-              <p className="font-bold text-gray-800 text-lg">느긋한 나무늘보형 🦥</p>
+              <p className="font-bold text-gray-800 text-lg">{info.diffTempo}</p>
+              <p className="text-xs text-gray-500 mt-1">{BMTI_INFO[info.diffTempo]?.kr}</p>
             </div>
           </div>
         </div>
@@ -191,6 +270,13 @@ const ResultView = ({ setView, quizCompleted, setQuizCompleted, isLoggedIn, setI
             카카오톡 공유
           </button>
           <button
+            id="insta-story-bottom"
+            onClick={() => setShowStoryModal(true)}
+            className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 text-white px-4 py-4 rounded-2xl text-sm font-bold shadow-sm hover:-translate-y-1 transition-transform flex items-center justify-center gap-2"
+          >
+            📸 인스타 스토리 다운로드
+          </button>
+          <button
             id="retake-quiz-bottom"
             onClick={() => setShowConfirm(true)}
             className="flex-1 bg-white text-black border border-gray-200 px-4 py-4 rounded-2xl text-sm font-bold shadow-sm hover:bg-gray-50 hover:-translate-y-1 transition-transform flex items-center justify-center gap-2"
@@ -200,16 +286,99 @@ const ResultView = ({ setView, quizCompleted, setQuizCompleted, isLoggedIn, setI
             </svg>
             다시 검사하기
           </button>
-          <button
-            id="go-board-bottom"
-            onClick={() => setView('board')}
-            className="flex-1 bg-black text-white px-4 py-4 rounded-2xl text-sm font-bold shadow-sm hover:bg-gray-800 hover:-translate-y-1 transition-transform flex items-center justify-center gap-2"
-          >
-            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path>
-            </svg>
-            <span className="text-left leading-tight">나와 같은<br />BMTI와 소통하기</span>
-          </button>
+        </div>
+      )}
+
+      {/* ===== Instagram Story Modal ===== */}
+      {showStoryModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md fade-in" onClick={() => setShowStoryModal(false)}>
+          <div className="flex flex-col items-center gap-4 max-h-[95vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            
+            {/* Story Card (9:16 ratio) */}
+            <div
+              ref={storyRef}
+              style={{
+                width: '540px',
+                height: '960px',
+                background: info.bgGradient,
+                fontFamily: "'Pretendard', sans-serif",
+              }}
+              className="rounded-3xl overflow-hidden relative flex flex-col items-center justify-between p-10 text-white shadow-2xl"
+            >
+              {/* Top */}
+              <div className="text-center z-10">
+                <p style={{ fontSize: '14px', letterSpacing: '0.3em', opacity: 0.8, marginBottom: '8px', fontWeight: 600 }}>MY BODY TYPE IS</p>
+                <h2 style={{ fontSize: '72px', fontWeight: 900, letterSpacing: '-2px', lineHeight: 1, marginBottom: '8px' }}>{axisCode}</h2>
+                <p style={{ fontSize: '16px', fontWeight: 600, opacity: 0.9 }}>{info.kr}</p>
+              </div>
+
+              {/* Character Image */}
+              <div className="z-10" style={{ width: '240px', height: '240px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', border: '3px solid rgba(255,255,255,0.3)' }}>
+                {charData && <img src={charData.originalImage} alt={axisCode} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />}
+              </div>
+
+              {/* Catchphrase */}
+              <div className="text-center z-10">
+                <p style={{ fontSize: '18px', fontWeight: 600, lineHeight: 1.6, whiteSpace: 'pre-line', marginBottom: '16px', textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+                  "{info.catchphrase}"
+                </p>
+
+                {/* State Indicator */}
+                {suffix && (
+                  <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.25)', backdropFilter: 'blur(5px)', borderRadius: '50px', padding: '6px 20px', fontSize: '13px', fontWeight: 700, border: '1px solid rgba(255,255,255,0.3)' }}>
+                    현재 상태: {axisCode}-{suffix}
+                  </div>
+                )}
+              </div>
+
+              {/* Chemistry */}
+              <div className="w-full z-10" style={{ display: 'flex', gap: '10px' }}>
+                <div style={{ flex: 1, background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(5px)', borderRadius: '16px', padding: '14px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.2)' }}>
+                  <p style={{ fontSize: '10px', opacity: 0.8, marginBottom: '4px', fontWeight: 600, letterSpacing: '0.1em' }}>환상의 짝꿍</p>
+                  <p style={{ fontSize: '20px', fontWeight: 900 }}>{info.bestMatch}</p>
+                </div>
+                <div style={{ flex: 1, background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(5px)', borderRadius: '16px', padding: '14px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.2)' }}>
+                  <p style={{ fontSize: '10px', opacity: 0.8, marginBottom: '4px', fontWeight: 600, letterSpacing: '0.1em' }}>다른 템포</p>
+                  <p style={{ fontSize: '20px', fontWeight: 900 }}>{info.diffTempo}</p>
+                </div>
+              </div>
+
+              {/* Bottom: URL area */}
+              <div className="w-full z-10 text-center">
+                <div style={{ background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(5px)', borderRadius: '12px', padding: '12px 16px', border: '1px solid rgba(255,255,255,0.25)' }}>
+                  <p style={{ fontSize: '11px', opacity: 0.7, marginBottom: '4px' }}>나도 BMTI 검사하기 👇</p>
+                  <p style={{ fontSize: '12px', fontWeight: 700, wordBreak: 'break-all' }}>여기에 붙여넣기</p>
+                </div>
+                <p style={{ fontSize: '10px', opacity: 0.5, marginTop: '8px', fontWeight: 500 }}>BMTI — Body Management Type Indicator</p>
+              </div>
+
+              {/* Decorative Elements */}
+              <div style={{ position: 'absolute', top: '-60px', right: '-60px', width: '200px', height: '200px', background: 'rgba(255,255,255,0.1)', borderRadius: '50%' }}></div>
+              <div style={{ position: 'absolute', bottom: '80px', left: '-40px', width: '120px', height: '120px', background: 'rgba(255,255,255,0.08)', borderRadius: '50%' }}></div>
+            </div>
+
+            {/* Action Buttons below the card */}
+            <div className="flex gap-3 w-full max-w-[540px]">
+              <button
+                onClick={handleCopyUrl}
+                className="flex-1 bg-white/20 backdrop-blur-md text-white border border-white/30 px-4 py-3 rounded-2xl text-sm font-bold hover:bg-white/30 transition-all flex items-center justify-center gap-2"
+              >
+                {urlCopied ? '✅ 복사 완료!' : '🔗 URL 복사'}
+              </button>
+              <button
+                onClick={handleDownloadStory}
+                className="flex-1 bg-white text-black px-4 py-3 rounded-2xl text-sm font-bold hover:bg-gray-100 transition-all flex items-center justify-center gap-2 shadow-lg"
+              >
+                📥 이미지 저장
+              </button>
+            </div>
+            <button
+              onClick={() => setShowStoryModal(false)}
+              className="text-white/60 hover:text-white text-sm transition-colors"
+            >
+              닫기
+            </button>
+          </div>
         </div>
       )}
 
