@@ -123,7 +123,7 @@ const HomeView = ({ setView, quizCompleted, isLoggedIn }) => {
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-          className="flex gap-6 md:gap-8 px-4 overflow-x-scroll select-none cursor-grab hide-scrollbar"
+          className="marquee-content flex gap-6 md:gap-8 px-4 select-none cursor-grab"
         >
           {[...CHARACTERS, ...CHARACTERS].map((char, idx) => (
             <div
