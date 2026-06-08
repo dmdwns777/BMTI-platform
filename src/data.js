@@ -113,21 +113,34 @@ export function calculateBMTI(answers, part2Choice) {
 
 // Mock Board Data
 export const BOARD_DATA = {
-  lounge: [
-    { id: 1, title: "오늘 BMTI 결과 나왔는데 너무 정확하네요!", author: "운동러버", date: "10분 전" },
-    { id: 2, title: "식단 공유방 만드실 분 계신가요?", author: "다이어터", date: "1시간 전" },
-    { id: 3, title: "곰형 체질이신 분들 운동 루틴 추천해주세요.", author: "튼튼이", date: "3시간 전" }
-  ],
-  challenge: [
-    { id: 1, title: "[모집] 매일 만보 걷기 30일 챌린지", author: "운영자", date: "오늘" },
-    { id: 2, title: "물 2L 마시기 1주차 인증합니다 💧", author: "수분촉촉", date: "어제" },
-    { id: 3, title: "바른 자세 유지 챌린지 - 데스크 워커 모여라", author: "척추요정", date: "2일 전" }
-  ],
-  qna: [
-    { id: 1, title: "Q. BMTI 검사는 얼마나 자주 하는게 좋나요?", author: "궁금해요", date: "오늘" },
-    { id: 2, title: "Q. 결과에 맞지 않는 운동을 하면 안되나요?", author: "초보자", date: "어제" },
-    { id: 3, title: "Q. 식단과 운동 중 어느 것이 체형에 더 영향을 미치나요?", author: "질문봇", date: "3일 전" }
-  ]
+  vote: {
+    question: "곧 맞춤형 50분 운동 플레이리스트 앱이 출시됩니다!\n가장 먼저 써보고 싶은 기능은?",
+    options: [
+      { id: 1, text: "내 유형별 인기 랭킹", votes: 45 },
+      { id: 2, text: "원클릭 추천 플레이리스트", votes: 89 },
+      { id: 3, text: "친구와 공유기능", votes: 21 }
+    ]
+  },
+  chat: {
+    Z: [
+      { id: 1, title: "효율적인 50분 운동 루틴 공유합니다.", author: "효율성애자", date: "10분 전" },
+      { id: 2, title: "단백질 보충제 가성비 팩트체크", author: "팩트폭격기", date: "1시간 전" },
+      { id: 3, title: "BMTI 결과 기반 주 3회 근력운동 플랜", author: "논리왕", date: "3시간 전" }
+    ],
+    M: [
+      { id: 4, title: "오늘도 운동 가기 너무 싫었는데 결국 해냈어요 ㅠㅠ", author: "따뜻한맘", date: "5분 전" },
+      { id: 5, title: "다이어트 정체기인데 너무 우울하네요...", author: "위로가필요해", date: "2시간 전" },
+      { id: 6, title: "같이 런닝하실 분 구해요! 초보자 대환영!", author: "다같이화이팅", date: "4시간 전" }
+    ]
+  },
+  qna: {
+    description: "추후 어플리케이션 제작과 본인 몸상태에 관련한 QnA",
+    posts: [
+      { id: 1, title: "Q. 앱은 언제쯤 출시되나요?", author: "기대중", date: "오늘" },
+      { id: 2, title: "Q. BMTI 결과에 맞지 않는 운동을 하면 몸이 나빠지나요?", author: "초보자", date: "어제" },
+      { id: 3, title: "Q. 결과지에 나온 보완 운동만 매일 해도 될까요?", author: "궁금해요", date: "3일 전" }
+    ]
+  }
 };
 
 import imgACDM from './assets/누끼 버전/ACDM 누끼.png';
