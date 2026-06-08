@@ -62,7 +62,7 @@ const HomeView = ({ setView, quizCompleted, isLoggedIn }) => {
 
     {/* Sticky CTA Button */}
     {!(isLoggedIn && quizCompleted) && (
-      <div className="sticky top-6 md:top-10 left-0 right-0 px-6 flex justify-center z-50 fade-in mb-16 pointer-events-none">
+      <div className="sticky top-32 md:top-28 left-0 right-0 px-6 flex justify-center z-50 fade-in mb-16 pointer-events-none">
         <button
           id="start-quiz-cta"
           onClick={() => setView('quiz')}
