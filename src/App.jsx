@@ -12,6 +12,7 @@ function App() {
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
   const [bmtiCode, setBmtiCode] = useState(''); // e.g. "ALDZ-Tl"
 
   // Scroll to top on view change
@@ -23,6 +24,7 @@ function App() {
   const handleLoginAttempt = () => {
     if (isLoggedIn) {
       setIsLoggedIn(false); // logout
+      setUserProfile(null);
     } else {
       setShowSignup(true); // open signup modal
     }
@@ -31,6 +33,7 @@ function App() {
   // Called when signup is completed
   const handleSignupComplete = (userData) => {
     console.log('✅ User signed up:', userData);
+    setUserProfile(userData);
     setShowSignup(false);
     setIsLoggedIn(true);
   };
@@ -42,6 +45,8 @@ function App() {
         setView={setCurrentView}
         isLoggedIn={isLoggedIn}
         setIsLoggedIn={handleLoginAttempt}
+        userProfile={userProfile}
+        bmtiCode={bmtiCode}
       />
 
       <main>

@@ -33,10 +33,11 @@ const AGE_RANGES = [
 const SignupModal = ({ isOpen, onClose, onComplete }) => {
   const [step, setStep] = useState(0); // 0: kakao intro, 1: basic info, 2: body info, 3: goals, 4: consent
   const [formData, setFormData] = useState({
+    nickname: '',
     gender: '',
     ageRange: '',
-    height: '',
-    weight: '',
+    height: '170',
+    weight: '70',
     goals: [],
     frequency: '',
     appNotification: true,
@@ -67,6 +68,7 @@ const SignupModal = ({ isOpen, onClose, onComplete }) => {
   const validateStep = (currentStep) => {
     const newErrors = {};
     if (currentStep === 1) {
+      if (!formData.nickname || !formData.nickname.trim()) newErrors.nickname = true;
       if (!formData.gender) newErrors.gender = true;
       if (!formData.ageRange) newErrors.ageRange = true;
     }
@@ -184,6 +186,24 @@ const SignupModal = ({ isOpen, onClose, onComplete }) => {
               <h3 className="text-2xl font-bold mb-1 text-gray-900">기본 정보</h3>
               <p className="text-sm text-gray-500 mb-8">맞춤 분석을 위해 기본 정보를 알려주세요.</p>
 
+              {/* Nickname */}
+              <div className="mb-6">
+                <label className="text-sm font-bold text-gray-700 mb-2 block">
+                  닉네임
+                  {errors.nickname && <span className="text-red-400 ml-2 font-medium text-xs">입력해주세요</span>}
+                </label>
+                <input
+                  type="text"
+                  placeholder="사용하실 닉네임을 입력하세요"
+                  value={formData.nickname}
+                  onChange={(e) => updateField('nickname', e.target.value)}
+                  className={`w-full px-4 py-3 rounded-2xl border-2 text-sm font-medium focus:outline-none focus:border-black transition-colors ${
+                    errors.nickname ? 'border-red-300' : 'border-gray-200'
+                  }`}
+                  maxLength={10}
+                />
+              </div>
+
               {/* Gender */}
               <div className="mb-8">
                 <label className="text-sm font-bold text-gray-700 mb-3 block">
@@ -262,21 +282,20 @@ const SignupModal = ({ isOpen, onClose, onComplete }) => {
                 <div>
                   <label className="text-sm font-bold text-gray-700 mb-2 block">
                     키
-                    {errors.height && <span className="text-red-400 ml-1 font-medium text-xs">필수</span>}
                   </label>
                   <div className="relative">
-                    <input
-                      id="input-height"
-                      type="number"
-                      inputMode="numeric"
-                      placeholder="170"
+                    <select
                       value={formData.height}
                       onChange={(e) => updateField('height', e.target.value)}
-                      className={`w-full px-4 py-4 rounded-2xl border-2 text-center text-lg font-bold focus:outline-none focus:border-black transition-colors ${
-                        errors.height ? 'border-red-300' : 'border-gray-200'
-                      }`}
-                    />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400 font-medium">cm</span>
+                      className="w-full px-4 py-4 rounded-2xl border-2 text-center text-lg font-bold focus:outline-none focus:border-black transition-colors border-gray-200 appearance-none bg-white"
+                    >
+                      <option value="140">140cm 이하</option>
+                      {Array.from({ length: 59 }, (_, i) => (
+                        <option key={141 + i} value={String(141 + i)}>{141 + i}cm</option>
+                      ))}
+                      <option value="200">200cm 이상</option>
+                    </select>
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">▼</span>
                   </div>
                 </div>
 
@@ -284,21 +303,20 @@ const SignupModal = ({ isOpen, onClose, onComplete }) => {
                 <div>
                   <label className="text-sm font-bold text-gray-700 mb-2 block">
                     체중
-                    {errors.weight && <span className="text-red-400 ml-1 font-medium text-xs">필수</span>}
                   </label>
                   <div className="relative">
-                    <input
-                      id="input-weight"
-                      type="number"
-                      inputMode="numeric"
-                      placeholder="65"
+                    <select
                       value={formData.weight}
                       onChange={(e) => updateField('weight', e.target.value)}
-                      className={`w-full px-4 py-4 rounded-2xl border-2 text-center text-lg font-bold focus:outline-none focus:border-black transition-colors ${
-                        errors.weight ? 'border-red-300' : 'border-gray-200'
-                      }`}
-                    />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400 font-medium">kg</span>
+                      className="w-full px-4 py-4 rounded-2xl border-2 text-center text-lg font-bold focus:outline-none focus:border-black transition-colors border-gray-200 appearance-none bg-white"
+                    >
+                      <option value="40">40kg 이하</option>
+                      {Array.from({ length: 59 }, (_, i) => (
+                        <option key={41 + i} value={String(41 + i)}>{41 + i}kg</option>
+                      ))}
+                      <option value="100">100kg 이상</option>
+                    </select>
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">▼</span>
                   </div>
                 </div>
               </div>
@@ -405,6 +423,10 @@ const SignupModal = ({ isOpen, onClose, onComplete }) => {
               <div className="bg-gray-50 rounded-2xl p-5 mb-6">
                 <p className="text-xs font-semibold text-gray-400 tracking-wider mb-3">입력하신 정보 요약</p>
                 <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">닉네임</span>
+                    <span className="font-bold text-gray-800">{formData.nickname}</span>
+                  </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">성별</span>
                     <span className="font-bold text-gray-800">{formData.gender === 'male' ? '남성' : '여성'}</span>

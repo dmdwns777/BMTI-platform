@@ -4,7 +4,7 @@ const KakaoIcon = ({ className = "w-3.5 h-3.5 fill-current" }) => (
   </svg>
 );
 
-const Navbar = ({ currentView, setView, isLoggedIn, setIsLoggedIn }) => {
+const Navbar = ({ currentView, setView, isLoggedIn, setIsLoggedIn, userProfile, bmtiCode }) => {
   const tabs = [
     { id: 'home', label: '홈' },
     { id: 'result', label: '결과지' },
@@ -44,21 +44,38 @@ const Navbar = ({ currentView, setView, isLoggedIn, setIsLoggedIn }) => {
         </div>
 
         {/* Right: Login */}
-        <div
-          id="login-button"
-          className="flex text-xs md:text-sm font-medium text-gray-600 hover:text-black transition-colors cursor-pointer items-center gap-2 z-10 order-2 md:order-none"
-          onClick={() => setIsLoggedIn(!isLoggedIn)}
-        >
+        <div className="flex text-xs md:text-sm font-medium items-center gap-3 md:gap-4 z-10 order-2 md:order-none">
           {isLoggedIn ? (
-            <span className="font-bold text-black border border-gray-200 px-4 py-1.5 rounded-full">로그아웃</span>
+            <div className="flex items-center gap-3">
+              {userProfile && (
+                <div className="hidden sm:flex items-center gap-1.5">
+                  <span className="font-bold text-black">{userProfile.nickname}</span>
+                  {bmtiCode && (
+                    <span className="text-[10px] font-bold bg-[#c0ff00] px-2 py-0.5 rounded-full text-black border border-[#9BB31B]/30">
+                      {bmtiCode.split('-')[0]}
+                    </span>
+                  )}
+                </div>
+              )}
+              <div
+                className="font-bold text-gray-600 hover:text-black border border-gray-200 hover:border-gray-300 px-4 py-1.5 rounded-full transition-colors cursor-pointer"
+                onClick={() => setIsLoggedIn(false)}
+              >
+                로그아웃
+              </div>
+            </div>
           ) : (
-            <>
+            <div
+              id="login-button"
+              className="flex items-center gap-2 text-gray-600 hover:text-black transition-colors cursor-pointer"
+              onClick={() => setIsLoggedIn(true)}
+            >
               <div className="w-5 h-5 bg-[#FEE500] rounded-full flex items-center justify-center">
                 <KakaoIcon className="w-3 h-3 fill-black" />
               </div>
               <span className="hidden sm:inline">카카오톡 간편 로그인/회원가입</span>
               <span className="sm:hidden">로그인</span>
-            </>
+            </div>
           )}
         </div>
       </div>
