@@ -8,6 +8,15 @@ const KakaoIcon = ({ className = "w-3.5 h-3.5 fill-current" }) => (
   </svg>
 );
 
+const getKoreanName = (code) => {
+  if (!code) return '';
+  const map = {
+    'A': '애', 'O': '오', 'C': '씨', 'L': '엘',
+    'D': '디', 'Q': '큐', 'M': '엠', 'Z': '지'
+  };
+  return code.split('').map(char => map[char] || char).join('');
+};
+
 // BMTI 유형별 정보
 const BMTI_INFO = {
   'ACDM': { kr: '활동적 집중 실전 공감형', catchphrase: '몸으로 먼저 느끼고,\n마음으로 함께 움직이는 사람', bestMatch: 'OLQZ', diffTempo: 'OLQM', color: '#FF6B6B', bgGradient: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)' },
@@ -150,24 +159,26 @@ const ResultView = ({ setView, quizCompleted, setQuizCompleted, isLoggedIn, setI
 
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#c0ff00]/10 rounded-bl-full -z-10"></div>
 
-        <div className={`flex flex-col items-center text-center ${quizCompleted ? 'mt-28 md:mt-16' : ''}`}>
-          {/* Character Image */}
-          <div className="w-48 h-48 bg-gray-50 rounded-full flex items-center justify-center relative border border-gray-200 overflow-hidden mb-8 shadow-inner">
+        <div className="flex flex-col items-center text-center">
+          {/* Character Image - Full Bleed */}
+          <div className="w-[calc(100%+4rem)] md:w-[calc(100%+6rem)] -mt-8 md:-mt-12 -mx-8 md:-mx-12 mb-8 relative">
             {charData ? (
-              <img src={charData.originalImage} alt={axisCode} className="w-full h-full object-contain" />
+              <img src={charData.originalImage} alt={axisCode} className="w-full h-full object-cover rounded-t-[2.5rem]" style={{ maxHeight: '400px' }} />
             ) : (
-              <>
+              <div className="w-full h-64 bg-gray-100 flex items-center justify-center rounded-t-[2.5rem]">
                 <div className="w-32 h-32 bg-black rounded-[40%] animate-spin-slow absolute"></div>
                 <div className="w-24 h-24 bg-[#c0ff00] rounded-full absolute mix-blend-multiply opacity-90"></div>
-              </>
+              </div>
             )}
           </div>
 
           {/* Catchphrase & Name */}
           <p className="text-[#9BB31B] font-bold text-lg md:text-xl mb-2">당신의 분석 코드</p>
-          <h3 className="text-4xl md:text-5xl font-black mb-3 tracking-tight text-gray-900">
-            {bmtiCode || '분석 중...'}
+          <h3 className="text-4xl md:text-5xl font-black mb-1 tracking-tight text-gray-900 flex items-baseline justify-center gap-1">
+            {axisCode}
+            {suffix && <span className="text-xl md:text-2xl text-gray-400 font-bold">-{suffix}</span>}
           </h3>
+          <p className="text-lg text-gray-500 font-bold mb-4">{getKoreanName(axisCode)}</p>
           <p className="text-sm text-gray-500 mb-2 font-medium">{info.kr}</p>
           <p className="text-base text-gray-600 mb-10 whitespace-pre-line leading-relaxed italic">{info.catchphrase}</p>
 
