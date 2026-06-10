@@ -140,12 +140,16 @@ const HomeView = ({ setView, quizCompleted, isLoggedIn }) => {
       {/* Removed Cards Section */}
 
       {/* Quote Section */}
-      <section className="max-w-4xl mx-auto px-6 text-center mb-32">
-        <p className="text-xl md:text-3xl font-serif leading-relaxed italic">
-          당신의 의지가 부족했던 게 아니라,<br/>
-          내 몸의 진짜 성향을 몰랐을 뿐입니다.<br/>
-          성격이 모두 다르듯,
-        </p>
+      <section className="max-w-4xl mx-auto px-6 text-center mb-8 relative">
+        <div className="relative inline-block px-8 py-4">
+          <span className="absolute top-0 left-0 md:-left-4 text-6xl md:text-8xl text-gray-200 font-serif leading-none select-none">"</span>
+          <p className="text-xl md:text-3xl font-serif leading-relaxed italic text-gray-800 tracking-tight font-medium relative z-10 px-4 md:px-8">
+            당신의 의지가 부족했던 게 아니라,<br/>
+            내 몸의 진짜 성향을 몰랐을 뿐입니다.<br/>
+            성격이 모두 다르듯,
+          </p>
+          <span className="absolute -bottom-4 right-0 md:-right-4 text-6xl md:text-8xl text-gray-200 font-serif leading-none select-none">"</span>
+        </div>
       </section>
     </div>
   );
