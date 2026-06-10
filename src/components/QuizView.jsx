@@ -84,7 +84,7 @@ const QuizView = ({ setView, setQuizCompleted, setBmtiCode }) => {
             <div className="text-5xl md:text-6xl mb-6">{QUESTIONS[step].emoji}</div>
             <h2 className="text-xl md:text-2xl font-serif font-bold leading-relaxed break-keep whitespace-pre-wrap">
               {QUESTIONS[step].prefix && (
-                <span className="text-sm md:text-base text-gray-400 block mb-2 font-normal">
+                <span className="text-gray-400 block mb-2 font-normal">
                   {QUESTIONS[step].prefix}
                 </span>
               )}
@@ -145,8 +145,14 @@ const QuizView = ({ setView, setQuizCompleted, setBmtiCode }) => {
           {/* Part 2 Linear Scale Answers (1~5) */}
           <div className="max-w-xl mx-auto mt-8">
             <div className="flex justify-between text-xs md:text-sm text-gray-400 font-bold mb-4 px-2">
-              <span className="text-left w-1/3 break-keep">에너지 바닥이고<br/>휴식이 필요한 상태</span>
-              <span className="text-right w-1/3 break-keep">에너지가 넘치고<br/>컨디션 최상인 상태</span>
+              <span className="text-left w-1/3 break-keep">
+                <span className="text-base md:text-lg mb-1 block">🔋</span>
+                에너지 바닥이고<br/>휴식이 필요한 상태
+              </span>
+              <span className="text-right w-1/3 break-keep">
+                <span className="text-base md:text-lg mb-1 block">🚀</span>
+                에너지가 넘치고<br/>컨디션 최상인 상태
+              </span>
             </div>
             <div className="flex justify-between items-center relative px-2">
               {/* Connecting Line */}
