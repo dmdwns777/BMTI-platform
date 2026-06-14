@@ -89,6 +89,16 @@ const BoardView = ({ isLoggedIn, onRequireLogin, userProfile, bmtiCode }) => {
     setExpandedId(expandedId === postId ? null : postId);
   };
 
+  const handleDeletePost = (postId, e) => {
+    e.stopPropagation();
+    if (window.confirm('정말로 이 글을 삭제하시겠습니까?')) {
+      setPosts(prev => ({
+        ...prev,
+        [talkType]: prev[talkType].filter(p => p.id !== postId)
+      }));
+    }
+  };
+
   const getSortedPosts = (list) => {
     if (talkSort === 'popular') return [...list].sort((a, b) => b.likes - a.likes);
     if (talkSort === 'comments') return [...list].sort((a, b) => b.comments.length - a.comments.length);
@@ -232,12 +242,20 @@ const BoardView = ({ isLoggedIn, onRequireLogin, userProfile, bmtiCode }) => {
               <div key={post.id} className="border border-gray-100 rounded-2xl bg-white overflow-hidden transition-all duration-300 hover:shadow-md">
                 {/* Post Header */}
                 <div className="p-5 md:p-6 cursor-pointer" onClick={() => toggleExpand(post.id)}>
-                  <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center justify-between mb-3">
                     <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
                       post.tag === '일상' ? 'bg-yellow-100 text-yellow-700' :
                       post.tag === '고민' ? 'bg-purple-100 text-purple-700' :
                       'bg-green-100 text-green-700'
                     }`}>{post.tag}</span>
+                    {isLoggedIn && post.author === myNickname && (
+                      <button
+                        onClick={(e) => handleDeletePost(post.id, e)}
+                        className="text-[11px] text-gray-400 hover:text-red-500 font-bold transition-colors px-2 py-1"
+                      >
+                        삭제
+                      </button>
+                    )}
                   </div>
                   <p className={`text-sm md:text-base text-gray-800 leading-relaxed ${isExpanded ? '' : 'line-clamp-3'}`}>{post.body}</p>
                   <div className="flex items-center justify-between mt-4">

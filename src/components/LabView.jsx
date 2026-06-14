@@ -2,6 +2,25 @@ import { useState } from 'react';
 
 const LabView = () => {
   const [activeTab, setActiveTab] = useState('story'); // 'request' or 'story'
+  const [formData, setFormData] = useState({
+    purpose: '',
+    bmti: '',
+    bodyState: '',
+    description: ''
+  });
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = () => {
+    if (!formData.purpose.trim() || !formData.bmti.trim() || !formData.bodyState || !formData.description.trim()) {
+      alert("선택 사항을 제외한 필수 항목을 모두 기재해 주세요.");
+      return;
+    }
+    alert("플리 신청이 완료되었습니다! 정식 앱 출시에 적극 반영할게요.");
+    setFormData({ purpose: '', bmti: '', bodyState: '', description: '' });
+  };
 
   return (
     <div className="min-h-screen pt-32 px-4 md:px-6 max-w-4xl mx-auto pb-24 fade-in">
@@ -267,12 +286,24 @@ const LabView = () => {
             <div className="space-y-6">
               <div>
                 <label className="text-sm font-bold text-gray-800 mb-2 block">어떤 목적의 루틴이 필요한가요?</label>
-                <input type="text" placeholder="예: 무릎 안 아픈 10분 하체 루틴" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors" />
+                <input 
+                  type="text" 
+                  placeholder="예: 무릎 안 아픈 10분 하체 루틴" 
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors" 
+                  value={formData.purpose}
+                  onChange={(e) => handleInputChange('purpose', e.target.value)}
+                />
               </div>
 
               <div>
                 <label className="text-sm font-bold text-gray-800 mb-2 block">본인의 BMTI</label>
-                <input type="text" placeholder="예: ALDZ" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors" />
+                <input 
+                  type="text" 
+                  placeholder="예: ALDZ" 
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors" 
+                  value={formData.bmti}
+                  onChange={(e) => handleInputChange('bmti', e.target.value)}
+                />
               </div>
 
               <div>
@@ -322,7 +353,13 @@ const LabView = () => {
                     { id: 'state5', text: '🚀 최상 컨디션 (퍼포먼스 도약)', score: '5점' }
                   ].map(state => (
                     <label key={state.id} className="flex items-center gap-3 text-sm bg-gray-50 border border-gray-100 px-4 py-3 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
-                      <input type="radio" name="bodyState" className="accent-black w-4 h-4" /> 
+                      <input 
+                        type="radio" 
+                        name="bodyState" 
+                        className="accent-black w-4 h-4" 
+                        checked={formData.bodyState === state.id}
+                        onChange={() => handleInputChange('bodyState', state.id)}
+                      /> 
                       <span className="flex-1">{state.text} <strong className="text-gray-400 ml-1">[{state.score}]</strong></span>
                     </label>
                   ))}
@@ -341,12 +378,18 @@ const LabView = () => {
 
               <div>
                 <label className="text-sm font-bold text-gray-800 mb-2 block">상세 설명</label>
-                <textarea rows="4" placeholder="어떤 동작들이 들어가면 좋을지, 피하고 싶은 동작은 무엇인지 자유롭게 적어주세요." className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors resize-none"></textarea>
+                <textarea 
+                  rows="4" 
+                  placeholder="어떤 동작들이 들어가면 좋을지, 피하고 싶은 동작은 무엇인지 자유롭게 적어주세요." 
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors resize-none"
+                  value={formData.description}
+                  onChange={(e) => handleInputChange('description', e.target.value)}
+                ></textarea>
               </div>
 
               <div className="pt-2">
                 <button 
-                  onClick={() => alert("플리 신청이 완료되었습니다! 정식 앱 출시에 적극 반영할게요.")}
+                  onClick={handleSubmit}
                   className="w-full bg-black text-white font-bold py-4 rounded-xl shadow-md hover:bg-gray-800 transition-colors"
                 >
                   신청하기
