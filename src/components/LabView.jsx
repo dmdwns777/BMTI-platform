@@ -18,6 +18,10 @@ const LabView = () => {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
 
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
   const handleArrayChange = (field, item) => {
     setFormData(prev => {
       const arr = prev[field];

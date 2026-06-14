@@ -45,12 +45,13 @@ const ResultView = ({ setView, quizCompleted, setQuizCompleted, isLoggedIn, setI
 
   // Parse BMTI code
   const axisCode = bmtiCode ? bmtiCode.split('-')[0] : '';
+  const suffix = bmtiCode && bmtiCode.includes('-') ? bmtiCode.split('-')[1] : '';
   const info = BMTI_INFO[axisCode] || BMTI_INFO['ACDM'];
   const charData = CHARACTERS.find(c => c.id === axisCode);
   const bestChar = CHARACTERS.find(c => c.id === info.bestMatch);
   const diffChar = CHARACTERS.find(c => c.id === info.diffTempo);
 
-  const siteUrl = 'https://dmdwns777.github.io/BMTI-platform/';
+  const siteUrl = 'https://bmti-official.github.io/BMTI-platform/';
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(siteUrl).then(() => {
