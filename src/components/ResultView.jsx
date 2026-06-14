@@ -45,7 +45,6 @@ const ResultView = ({ setView, quizCompleted, setQuizCompleted, isLoggedIn, setI
 
   // Parse BMTI code
   const axisCode = bmtiCode ? bmtiCode.split('-')[0] : '';
-  const suffix = bmtiCode ? bmtiCode.split('-')[1] || '' : '';
   const info = BMTI_INFO[axisCode] || BMTI_INFO['ACDM'];
   const charData = CHARACTERS.find(c => c.id === axisCode);
   const bestChar = CHARACTERS.find(c => c.id === info.bestMatch);
@@ -134,7 +133,6 @@ const ResultView = ({ setView, quizCompleted, setQuizCompleted, isLoggedIn, setI
               <p className="text-[#9BB31B] font-bold text-lg md:text-xl mb-2">당신의 분석 코드</p>
               <h3 className="text-3xl sm:text-4xl md:text-5xl font-black mb-1 tracking-tight text-gray-900 flex flex-col items-center gap-0">
                 <span>{axisCode}</span>
-                {suffix && <span className="text-xl sm:text-2xl md:text-3xl text-gray-400 font-bold">-{suffix}</span>}
               </h3>
               <p className="text-base sm:text-lg text-gray-500 font-bold mb-4">{getKoreanName(axisCode)}</p>
               <p className="text-xs sm:text-sm text-gray-500 mb-2 font-medium">{info.kr}</p>

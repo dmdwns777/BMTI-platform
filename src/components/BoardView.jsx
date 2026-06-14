@@ -149,6 +149,10 @@ const BoardView = ({ isLoggedIn, onRequireLogin, userProfile, bmtiCode }) => {
       if (onRequireLogin) onRequireLogin();
       return;
     }
+    if (!bmtiCode) {
+      alert("설문을 완료한 사람만 작성할 수 있습니다.");
+      return;
+    }
     setShowWriteModal(true);
   };
 
@@ -174,6 +178,10 @@ const BoardView = ({ isLoggedIn, onRequireLogin, userProfile, bmtiCode }) => {
   };
 
   const handleSubmitComment = (postId) => {
+    if (!bmtiCode) {
+      alert("설문을 완료한 사람만 댓글을 작성할 수 있습니다.");
+      return;
+    }
     const text = commentInputs[postId]?.trim();
     if (!text) return;
     setPosts(prev => {
@@ -198,6 +206,10 @@ const BoardView = ({ isLoggedIn, onRequireLogin, userProfile, bmtiCode }) => {
   };
 
   const handleSubmitReply = (postId, commentId) => {
+    if (!bmtiCode) {
+      alert("설문을 완료한 사람만 대댓글을 작성할 수 있습니다.");
+      return;
+    }
     const key = `${postId}-${commentId}`;
     const text = replyInputs[key]?.trim();
     if (!text) return;

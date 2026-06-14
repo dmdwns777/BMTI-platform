@@ -4,7 +4,6 @@ const LabView = () => {
   const [activeTab, setActiveTab] = useState('story'); // 'request' or 'story'
   const [formData, setFormData] = useState({
     purpose: '',
-    bmti: '',
     bodyState: '',
     description: ''
   });
@@ -14,12 +13,12 @@ const LabView = () => {
   };
 
   const handleSubmit = () => {
-    if (!formData.purpose.trim() || !formData.bmti.trim() || !formData.bodyState || !formData.description.trim()) {
+    if (!formData.purpose.trim() || !formData.bodyState || !formData.description.trim()) {
       alert("선택 사항을 제외한 필수 항목을 모두 기재해 주세요.");
       return;
     }
     alert("플리 신청이 완료되었습니다!\n'자기점검 50분' 카카오톡 공식 채널에서 확인해보실 수 있습니다.");
-    setFormData({ purpose: '', bmti: '', bodyState: '', description: '' });
+    setFormData({ purpose: '', bodyState: '', description: '' });
   };
 
   return (
@@ -292,17 +291,6 @@ const LabView = () => {
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors" 
                   value={formData.purpose}
                   onChange={(e) => handleInputChange('purpose', e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-bold text-gray-800 mb-2 block">본인의 BMTI</label>
-                <input 
-                  type="text" 
-                  placeholder="예: ALDZ" 
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors" 
-                  value={formData.bmti}
-                  onChange={(e) => handleInputChange('bmti', e.target.value)}
                 />
               </div>
 

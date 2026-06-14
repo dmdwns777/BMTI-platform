@@ -90,25 +90,12 @@ export function calculateAxisCode(answers) {
 }
 
 /**
- * Part 2 선택지에서 접미사(Suffix) 결정
- * @param {number} choiceId - 선택지 ID (1~5)
- * @returns {string} 접미사, 예: "Tl"
- */
-export function getSuffix(choiceId) {
-  const option = PART2_OPTIONS.find(o => o.id === choiceId);
-  return option ? option.suffix : 'Fp';
-}
-
-/**
  * 최종 BMTI 코드 생성
  * @param {number[]} answers - 20개 응답 배열
- * @param {number} part2Choice - Part 2 선택지 ID (1~5)
- * @returns {string} 최종 코드, 예: "ALDZ-Tl"
+ * @returns {string} 최종 코드, 예: "ALDZ"
  */
-export function calculateBMTI(answers, part2Choice) {
-  const axisCode = calculateAxisCode(answers);
-  const suffix = getSuffix(part2Choice);
-  return `${axisCode}-${suffix}`;
+export function calculateBMTI(answers) {
+  return calculateAxisCode(answers);
 }
 
 // Mock Board Data
