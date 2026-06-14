@@ -5,6 +5,8 @@ const LabView = () => {
   const [formData, setFormData] = useState({
     purpose: '',
     bodyState: '',
+    bodyPart: '딱히 없음',
+    bodyPartCustom: '',
     description: ''
   });
 
@@ -18,7 +20,7 @@ const LabView = () => {
       return;
     }
     alert("플리 신청이 완료되었습니다!\n'자기점검 50분' 카카오톡 공식 채널에서 확인해보실 수 있습니다.");
-    setFormData({ purpose: '', bodyState: '', description: '' });
+    setFormData({ purpose: '', bodyState: '', bodyPart: '딱히 없음', bodyPartCustom: '', description: '' });
   };
 
   return (
@@ -298,13 +300,19 @@ const LabView = () => {
                 <label className="text-sm font-bold text-gray-800 mb-3 block">운동환경이 어떻게 되나요?</label>
                 
                 <div className="mb-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                  <p className="text-xs font-bold text-gray-600 mb-3">피해야하는 상황 (중복 선택 가능)</p>
+                  <p className="text-xs font-bold text-gray-600 mb-3">주된 운동 환경 (중복 선택 가능)</p>
                   <div className="flex flex-wrap gap-2">
                     <label className="flex items-center gap-2 text-sm bg-white border border-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50">
-                      <input type="checkbox" className="accent-black w-4 h-4" /> 야외
+                      <input type="checkbox" className="accent-black w-4 h-4" /> 홈트
                     </label>
                     <label className="flex items-center gap-2 text-sm bg-white border border-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50">
-                      <input type="checkbox" className="accent-black w-4 h-4" /> 층간소음
+                      <input type="checkbox" className="accent-black w-4 h-4" /> 헬스장
+                    </label>
+                    <label className="flex items-center gap-2 text-sm bg-white border border-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50">
+                      <input type="checkbox" className="accent-black w-4 h-4" /> 야외/공원
+                    </label>
+                    <label className="flex items-center gap-2 text-sm bg-white border border-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50">
+                      <input type="checkbox" className="accent-black w-4 h-4" /> 사무실/학교
                     </label>
                     <div className="flex items-center gap-2 text-sm bg-white border border-gray-200 px-3 py-1.5 rounded-lg focus-within:border-gray-400">
                       <input type="checkbox" className="accent-black w-4 h-4" />
@@ -314,13 +322,25 @@ const LabView = () => {
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                  <p className="text-xs font-bold text-gray-600 mb-3">가지고 있는 도구 (중복 선택 가능)</p>
+                  <p className="text-xs font-bold text-gray-600 mb-3">활용하고 싶은 도구 (중복 선택 가능)</p>
                   <div className="flex flex-wrap gap-2">
                     <label className="flex items-center gap-2 text-sm bg-white border border-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50">
                       <input type="checkbox" className="accent-black w-4 h-4" /> 폼롤러
                     </label>
                     <label className="flex items-center gap-2 text-sm bg-white border border-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50">
-                      <input type="checkbox" className="accent-black w-4 h-4" /> 마사지공
+                      <input type="checkbox" className="accent-black w-4 h-4" /> 마사지공(또는 테니스공)
+                    </label>
+                    <label className="flex items-center gap-2 text-sm bg-white border border-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50">
+                      <input type="checkbox" className="accent-black w-4 h-4" /> 탄성밴드(세라밴드, 루프밴드)
+                    </label>
+                    <label className="flex items-center gap-2 text-sm bg-white border border-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50">
+                      <input type="checkbox" className="accent-black w-4 h-4" /> 아령(덤벨)또는 케틀벨
+                    </label>
+                    <label className="flex items-center gap-2 text-sm bg-white border border-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50">
+                      <input type="checkbox" className="accent-black w-4 h-4" /> 요가링(젠링)
+                    </label>
+                    <label className="flex items-center gap-2 text-sm bg-white border border-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50">
+                      <input type="checkbox" className="accent-black w-4 h-4" /> 딱히 없음(맨몸)
                     </label>
                     <div className="flex items-center gap-2 text-sm bg-white border border-gray-200 px-3 py-1.5 rounded-lg focus-within:border-gray-400">
                       <input type="checkbox" className="accent-black w-4 h-4" />
@@ -332,43 +352,74 @@ const LabView = () => {
 
               <div>
                 <label className="text-sm font-bold text-gray-800 mb-3 block">현재 나의 몸 상태</label>
-                <div className="space-y-2">
-                  {[
-                    { id: 'state1', text: '🔋 에너지 바닥 (깊은 피로)', score: '1점' },
-                    { id: 'state2', text: '🔋 배터리 부족 (가벼운 피로)', score: '2점' },
-                    { id: 'state3', text: '🔋 보통 (일상적 기준점)', score: '3점' },
-                    { id: 'state4', text: '🚀 좋은 컨디션 (안정적 활력)', score: '4점' },
-                    { id: 'state5', text: '🚀 최상 컨디션 (퍼포먼스 도약)', score: '5점' }
-                  ].map(state => (
-                    <label key={state.id} className="flex items-center gap-3 text-sm bg-gray-50 border border-gray-100 px-4 py-3 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
-                      <input 
-                        type="radio" 
-                        name="bodyState" 
-                        className="accent-black w-4 h-4" 
-                        checked={formData.bodyState === state.id}
-                        onChange={() => handleInputChange('bodyState', state.id)}
-                      /> 
-                      <span className="flex-1">{state.text} <strong className="text-gray-400 ml-1">[{state.score}]</strong></span>
-                    </label>
-                  ))}
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                  <div className="flex justify-between text-xs font-bold text-gray-500 mb-6 px-2">
+                    <span className="text-center w-20">🔋 에너지 바닥<br/>(깊은 피로)</span>
+                    <span className="text-center w-24">🚀 최상 컨디션<br/>(퍼포먼스 도약)</span>
+                  </div>
+                  <div className="flex justify-between items-center relative px-6 md:px-10">
+                    <div className="absolute left-0 right-0 h-1.5 bg-gray-200 top-1/2 -translate-y-1/2 z-0 rounded-full mx-6 md:mx-10"></div>
+                    {[1, 2, 3, 4, 5].map((val) => (
+                      <label key={`state${val}`} className="relative z-10 cursor-pointer group">
+                        <input 
+                          type="radio" 
+                          name="bodyState" 
+                          className="sr-only" 
+                          checked={formData.bodyState === `state${val}`}
+                          onChange={() => handleInputChange('bodyState', `state${val}`)}
+                        />
+                        <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-bold text-sm md:text-base transition-all duration-300
+                          ${formData.bodyState === `state${val}` 
+                            ? 'bg-black text-white scale-125 shadow-lg ring-4 ring-black/10' 
+                            : 'bg-white text-gray-400 border-2 border-gray-200 group-hover:border-gray-400 group-hover:scale-110'
+                          }`}
+                        >
+                          {val}
+                        </div>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
 
               <div>
-                <label className="text-sm font-bold text-gray-800 mb-2 block">세심한 배려가 필요한 부위나 뻐근하거나 불편한 곳 <span className="text-gray-400 font-normal">(선택 사항)</span></label>
-                <input type="text" placeholder="예: 오른쪽 어깨가 특히 결려요" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors" />
+                <label className="text-sm font-bold text-gray-800 mb-2 block">세심한 배려가 필요하거나 뻐근 또는 불편한 부위 <span className="text-gray-400 font-normal">(한 부위 선택 가능)</span></label>
+                <div className="relative mb-2">
+                  <select 
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors appearance-none bg-white font-medium"
+                    value={formData.bodyPart}
+                    onChange={(e) => handleInputChange('bodyPart', e.target.value)}
+                  >
+                    <option value="딱히 없음">딱히 없음</option>
+                    <option value="목·어깨 (거북목, 승모근 긴장 등)">목·어깨 (거북목, 승모근 긴장 등)</option>
+                    <option value="허리">허리</option>
+                    <option value="골반·고관절 (고관절 찝힘, 좌우 불균형 등)">골반·고관절 (고관절 찝힘, 좌우 불균형 등)</option>
+                    <option value="무릎">무릎</option>
+                    <option value="손목·발목">손목·발목</option>
+                    <option value="발·발목">발·발목</option>
+                    <option value="얼굴 비대칭">얼굴 비대칭</option>
+                    <option value="기타(직접 작성)">기타(직접 작성)</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                </div>
+                {formData.bodyPart === '기타(직접 작성)' && (
+                  <input 
+                    type="text" 
+                    placeholder="불편한 부위를 직접 적어주세요" 
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50"
+                    value={formData.bodyPartCustom}
+                    onChange={(e) => handleInputChange('bodyPartCustom', e.target.value)}
+                  />
+                )}
               </div>
 
               <div>
-                <label className="text-sm font-bold text-gray-800 mb-2 block">오늘의 기분/목표 <span className="text-gray-400 font-normal">(선택 사항)</span></label>
-                <input type="text" placeholder="예: 차분하게 하루를 마무리하고 싶어요" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors" />
-              </div>
-
-              <div>
-                <label className="text-sm font-bold text-gray-800 mb-2 block">상세 설명</label>
+                <label className="text-sm font-bold text-gray-800 mb-2 block">상세 설명 <span className="text-gray-400 font-normal">(선택하신 부위가 평소 언제, 어떻게 불편한지 편하게 적어주세요.)</span></label>
                 <textarea 
                   rows="4" 
-                  placeholder="어떤 동작들이 들어가면 좋을지, 피하고 싶은 동작은 무엇인지 자유롭게 적어주세요." 
+                  placeholder="예시) 오래 앉아 있으면 오른쪽 허리가 뻐근해요 / 계단을 내려갈 때 무릎에서 뚝뚝 소리가 나요 / 아프진 않은데 체형 교정이 목적이에요." 
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors resize-none"
                   value={formData.description}
                   onChange={(e) => handleInputChange('description', e.target.value)}
