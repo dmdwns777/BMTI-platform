@@ -96,7 +96,7 @@ const TicketView = () => {
   }, [animatingIdx]);
 
   return (
-    <div className="min-h-screen pt-32 pb-40 px-4 md:px-6 max-w-2xl mx-auto fade-in">
+    <div className="min-h-screen pt-44 pb-40 px-4 md:px-6 max-w-2xl mx-auto fade-in">
       {/* Hidden canvas for watermarking */}
       <canvas ref={canvasRef} className="hidden" />
       {/* Hidden file input */}

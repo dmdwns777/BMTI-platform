@@ -75,7 +75,7 @@ const QuizView = ({ setView, setQuizCompleted, setBmtiCode }) => {
   }, [phase]);
 
   return (
-    <div className="min-h-screen pt-32 pb-24 px-6 max-w-3xl mx-auto fade-in">
+    <div className="min-h-screen pt-44 pb-24 px-6 max-w-3xl mx-auto fade-in">
       {/* Progress bar */}
       <div className="mb-12">
         <div className="flex items-center mb-2">
@@ -91,7 +91,7 @@ const QuizView = ({ setView, setQuizCompleted, setBmtiCode }) => {
             </button>
           )}
           <div className="flex justify-between text-sm text-gray-500 font-medium w-full">
-            <span>{phase === 'part1' ? 'Part 1 · 성향 분석' : 'Part 2 · 상태 지표'}</span>
+            <span>진행률 {Math.round(progress)}%</span>
             <span>{currentStep} / {totalSteps}</span>
           </div>
         </div>

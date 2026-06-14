@@ -22,7 +22,7 @@ const LabView = () => {
   };
 
   return (
-    <div className="min-h-screen pt-32 px-4 md:px-6 max-w-4xl mx-auto pb-24 fade-in">
+    <div className="min-h-screen pt-44 px-4 md:px-6 max-w-4xl mx-auto pb-24 fade-in">
       {/* Main Title */}
       <div className="text-center mb-10">
         <h2 className="text-2xl md:text-3xl font-bold mb-3 font-serif tracking-tight">BMTI 플리 신청</h2>
