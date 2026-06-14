@@ -80,6 +80,8 @@ function App() {
           <BoardView 
             isLoggedIn={isLoggedIn}
             onRequireLogin={() => setShowSignup(true)}
+            userProfile={userProfile}
+            bmtiCode={bmtiCode}
           />
         )}
         {currentView === 'lab' && <LabView />}
