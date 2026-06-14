@@ -9,7 +9,7 @@ const Navbar = ({ currentView, setView, isLoggedIn, setIsLoggedIn, userProfile, 
     { id: 'home', label: '홈' },
     { id: 'result', label: '🔍결과지' },
     { id: 'board', label: '💌커뮤니티' },
-    ...(isLoggedIn && bmtiCode ? [{ id: 'ticket', label: '🎟️ 플리 티켓' }] : []),
+    { id: 'ticket', label: '🎟️ 플리 티켓' },
     { id: 'lab', label: '🎧플리 신청' }
   ];
 

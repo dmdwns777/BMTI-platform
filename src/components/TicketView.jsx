@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-const TicketView = () => {
+const TicketView = ({ isLoggedIn, bmtiCode, setView }) => {
   const [progress, setProgress] = useState(3); // 3/5 active
   const [verified, setVerified] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -95,6 +95,26 @@ const TicketView = () => {
     return () => clearTimeout(t);
   }, [animatingIdx]);
 
+  if (!isLoggedIn || !bmtiCode) {
+    return (
+      <div className="min-h-screen pt-44 pb-40 px-6 flex flex-col items-center justify-center text-center fade-in max-w-md mx-auto">
+        <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6 border border-gray-200">
+          <span className="text-3xl">🎟️</span>
+        </div>
+        <h2 className="text-2xl font-serif font-bold mb-4">플리 티켓 활성화 대기 중</h2>
+        <p className="text-gray-500 mb-8 break-keep leading-relaxed text-sm md:text-base">
+          설문을 완료하고 결과지를 분석 받은 후, 카카오톡 로그인을 하시면 플리 티켓 기능을 이용하실 수 있습니다.
+        </p>
+        <button
+          onClick={() => setView('quiz')}
+          className="bg-black text-white px-8 py-3.5 rounded-full font-medium hover:bg-gray-800 transition-colors shadow-lg shadow-black/10 w-full md:w-auto"
+        >
+          설문하러 가기
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen pt-44 pb-40 px-4 md:px-6 max-w-2xl mx-auto fade-in">
       {/* Hidden canvas for watermarking */}
@@ -109,48 +129,47 @@ const TicketView = () => {
         onChange={handleFileChange}
       />
 
-      {/* ===== Progress Section ===== */}
-      <div className="bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-sm mb-6">
-        <p className="text-center text-base md:text-lg text-gray-700 mb-6 leading-relaxed break-keep" style={{ fontFamily: "'Pretendard', sans-serif" }}>
+      {/* ===== Progress Section (Horizontal) ===== */}
+      <div className="bg-white border border-gray-100 rounded-2xl p-4 md:p-5 shadow-sm mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="text-center sm:text-left text-sm text-gray-700 leading-relaxed break-keep">
           {remaining > 0 ? (
             <>
-              이번 주 <strong className="text-black">{remaining}번</strong>만 더 인증하면,<br />
+              이번 주 <strong className="text-black">{remaining}번</strong>만 더 인증하면,<br className="sm:hidden" />
               나만의 <strong className="text-[#9BB31B]">[10분 맞춤 플리]</strong>를 신청할 수 있어요!
             </>
           ) : (
             <>
-              🎉 <strong className="text-[#9BB31B]">축하해요!</strong> 이번 주 인증을 모두 완료했어요!<br />
+              🎉 <strong className="text-[#9BB31B]">축하해요!</strong> 이번 주 인증 완료!<br className="sm:hidden" />
               나만의 <strong className="text-[#9BB31B]">[10분 맞춤 플리]</strong>를 신청해 보세요!
             </>
           )}
-        </p>
-
-        {/* Ticket gauge icons */}
-        <div className="flex justify-center gap-3 md:gap-5">
-          {[0, 1, 2, 3, 4].map(idx => {
-            const isActive = idx < progress;
-            const isAnimating = idx === animatingIdx;
-            return (
-              <div
-                key={idx}
-                className={`
-                  w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center text-xl md:text-2xl
-                  transition-all duration-500 ease-out
-                  ${isActive
-                    ? 'bg-[#c0ff00] border-2 border-[#9BB31B]/40 shadow-md shadow-[#c0ff00]/30'
-                    : 'bg-gray-100 border-2 border-gray-200 text-gray-300'
-                  }
-                  ${isAnimating ? 'scale-125 animate-bounce' : ''}
-                `}
-              >
-                {isActive ? '🎟️' : '🎵'}
-              </div>
-            );
-          })}
         </div>
 
-        <div className="mt-4 text-center">
-          <span className="text-xs font-bold text-gray-400 tracking-wider">{progress} / 5 완료</span>
+        <div className="flex flex-col items-center flex-shrink-0">
+          {/* Ticket gauge icons */}
+          <div className="flex justify-center gap-1.5 md:gap-2 mb-1.5">
+            {[0, 1, 2, 3, 4].map(idx => {
+              const isActive = idx < progress;
+              const isAnimating = idx === animatingIdx;
+              return (
+                <div
+                  key={idx}
+                  className={`
+                    w-8 h-8 md:w-10 md:h-10 rounded-xl flex items-center justify-center text-sm md:text-base
+                    transition-all duration-500 ease-out
+                    ${isActive
+                      ? 'bg-[#c0ff00] border border-[#9BB31B]/40 shadow-sm shadow-[#c0ff00]/30'
+                      : 'bg-gray-100 border border-gray-200 text-gray-300'
+                    }
+                    ${isAnimating ? 'scale-125 animate-bounce' : ''}
+                  `}
+                >
+                  {isActive ? '🎟️' : '🎵'}
+                </div>
+              );
+            })}
+          </div>
+          <span className="text-[10px] font-bold text-gray-400 tracking-wider">{progress} / 5 완료</span>
         </div>
       </div>
 

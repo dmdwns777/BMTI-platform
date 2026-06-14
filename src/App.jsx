@@ -85,7 +85,13 @@ function App() {
           />
         )}
         {currentView === 'lab' && <LabView />}
-        {currentView === 'ticket' && <TicketView />}
+        {currentView === 'ticket' && (
+          <TicketView 
+            isLoggedIn={isLoggedIn}
+            bmtiCode={bmtiCode}
+            setView={setCurrentView}
+          />
+        )}
       </main>
 
       {/* Footer for Home/Board/Lab views */}
